@@ -67,10 +67,8 @@ const addingEmployee = [
     }
 ];
 
-//generate html here
-function generate(){
-//Beggining of html
-const tempBeginning =`<!DOCTYPE html>
+function loopEmp(){
+    let tempBeginning =`<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -87,81 +85,104 @@ const tempBeginning =`<!DOCTYPE html>
         </h1>
     </header>
     <main class="team-container">`;
+    //source for storing cards
+let temp = ``;
 
-const tempEnding =`</main>
+employeeList.forEach((emp) => {
+    if(emp.role === 'engineer'){
+    temp =`
+    <section class='card'>
+        <header class='top-half'>
+            <h3>${emp.name}</h3>
+            <h3>${emp.role}</h3>
+        </header>
+        <main class='bottom-half'>
+            <br/><br/>
+            <section>
+               ID:${emp.id}
+            </section>
+            <br/><br/>
+            <section>
+               Email:
+               <a href='mailto: ${emp.email}'>${emp.email}</a>
+            </section>
+            <br/><br/>
+            <section>
+               GitHub:
+               <a href='https://github.com/${emp.github}'>${emp.github}</a>
+            </section>
+        </main>
+    </section>
+    `;
+    }else if(emp.role === 'intern'){
+    temp =`
+    <section class='card'>
+        <header class='top-half'>
+            <h3>${emp.name}</h3>
+            <h3>${emp.role}</h3>
+        </header>
+        <main class='bottom-half'>
+            <br/><br/>
+            <section>
+                ID:${emp.id}
+            </section>
+            <br/><br/>
+            <section>
+                Email:
+                <a href='mailto: ${emp.email}'>${emp.email}</a>
+            </section>
+            <br/><br/>
+            <section>
+                School:${emp.school}
+            </section>
+        </main>
+    </section>
+    `;
+    }else if(emp.role === 'manager'){
+    temp  =`
+    <section class='card'>
+        <header class='top-half'>
+            <h3>${emp.name}</h3>
+            <h3>${emp.role}</h3>
+        </header>
+        <main class='bottom-half'>
+            <br/><br/>
+            <section>
+                ID:${emp.id}
+            </section>
+            <br/><br/>
+            <section>
+                Email:
+                <a href='mailto: ${emp.email}'>${emp.email}</a>
+            </section>
+            <br/><br/>
+            <section>
+                Office Number:${emp.officeNumber}
+            </section>
+        </main>
+    </section>
+    `;
+    }
+tempBeginning = tempBeginning.concat(temp);
+})
+return tempBeginning
+}
+
+function generate(){
+let tempEnding =`</main>
 <script src='../index.js'></script>
 </body>
 </html>`;
 
-// Iterating over employeeList for each response
-employeeList.forEach((emp) => {
-     if (emp.role === 'engineer'){
-    let temp =`<section>
-         <header>
-             <h3>${emp.name}</h3>
-             <h3>${emp.role}</h3>
-         </header>
-         <main>
-             <section>
-                 ${emp.id}
-             </section>
-             <section>
-                 ${emp.email}
-             </section>
-             <section>
-                 ${emp.github}
-             </section>
-         </main>
-     </section>`;
-     tempBeginning.concat(temp);
-    }else if (emp.role === 'intern'){
-let temp =`<section>
-    <header>
-        <h3>${emp.name}</h3>
-        <h3>${emp.role}</h3>
-    </header>
-    <main>
-        <section>
-            ${emp.id}
-        </section>
-        <section>
-            ${emp.email}
-        </section>
-        <section>
-            ${emp.school}
-        </section>
-    </main>
-</section>`;
-tempBeginning.concat(temp);
-} else if (emp.role === 'manager'){
-let temp  =`<section>
-    <header>
-        <h3>${emp.name}</h3>
-        <h3>${emp.role}</h3>
-    </header>
-    <main>
-        <section>
-            ${emp.id}
-        </section>
-        <section>
-            ${emp.email}
-        </section>
-        <section>
-            ${emp.officeNumber}
-        </section>
-    </main>
-</section>`;
-tempBeginning.concat(temp);
+    let html = loopEmp()
+    html = html.concat(tempEnding);
+    fs.writeFile('./dist/index.html', html, (err) =>
+        err? console.error(err): console.log('file was written'));
 }
 
-//write file when we build all the html
-fs.writeFile('./dist/index.html', tempBeginning, (err) =>
-    err? console.error(err): console.log('file was written'));
-})};
-
-//Loop questions until desired amount of employees are generated
-function addEmployee(){
-    inquirer.prompt(addingEmployee)
+//Loop questions until desired amount of employees are generated 
+function addEmployee(){  
+    inquirer.prompt(addingEmployee)  
     .then(resp =>{
         if (resp.addEmployee === 'add another'){
             init()

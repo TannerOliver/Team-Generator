@@ -1,0 +1,31 @@
+.header{
+    text-align:center;
+    width:100vw;
+    height:10vh;
+    background-color: coral;
+    color:white;
+    padding: 1vh;
+}
+.team-container{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 10vh;
+}
+.card{
+    flex-wrap: wrap;
+    width:15vw;
+    height:35vh;
+    border: 5px lightblue solid;
+    border-radius: 50px;
+}
+.top-half{
+    text-align: center;
+    border-bottom:2px lightblue solid;
+    border-radius: 5px;
+}
+.bottom-half{
+    border-top: 2px lightblue solid;
+    border-radius: 5px;
+    text-align:center;
+}
